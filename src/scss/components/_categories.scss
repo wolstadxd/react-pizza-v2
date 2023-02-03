@@ -2,6 +2,11 @@
 
 
 .categories {
+  @media (max-width: 1300px) {
+    width: 100%;
+    overflow: auto;
+  }
+
   ul {
     display: flex;
 
@@ -14,6 +19,10 @@
       cursor: pointer;
       transition: background-color 0.1s ease-in-out;
       @include noselect();
+
+      @media (max-width: 760px) {
+        padding: 8px 20px;
+      }
 
       &:hover {
         background-color: darken(#f9f9f9, 2%);
