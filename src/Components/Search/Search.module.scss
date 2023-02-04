@@ -1,0 +1,28 @@
+
+.wrapper {
+  position: relative;
+}
+.root {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 8px 20px;
+  width: 300px;
+  border-radius: 12px;
+  font-size: 16px;
+  transition: width .2s ease-in-out;
+  &:focus {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+  }
+}
+
+.clear {
+  width: 18px;
+  height: 18px;
+  opacity: .4;
+  position: absolute;
+  right: 15px;
+  top: 11px;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.8;
+  }
+}
