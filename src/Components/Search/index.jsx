@@ -1,6 +1,9 @@
 import styles from './Search.module.scss'
+import {useContext} from "react";
+import {SearchContext} from "../../App";
+const Search = () => {
 
-const Search = ({searchValue, setSearchValue}) => {
+    const {searchValue, setSearchValue} = useContext(SearchContext)
 
     return (
         <div className={styles.wrapper}>

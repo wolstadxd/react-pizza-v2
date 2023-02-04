@@ -2,10 +2,11 @@ import Categories from "../Components/Categories";
 import Sort from "../Components/Sort";
 import Skeleton from "../Components/PizzaBlock/Skeleton";
 import PizzaBlock from "../Components/PizzaBlock";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import Pagination from "../Components/Pagination";
+import {SearchContext} from "../App";
 
-const Home = ({searchValue}) => {
+const Home = () => {
     const [items, setItems] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const [categoryId, setCategoryId] = useState(0)
@@ -15,6 +16,7 @@ const Home = ({searchValue}) => {
         sortProperty: 'rating'
     })
 
+    const {searchValue} = useContext(SearchContext)
 
     useEffect(() => {
         setIsLoading(true)
@@ -22,7 +24,6 @@ const Home = ({searchValue}) => {
         const category = categoryId > 0 ? `category=${categoryId}` : ''
         const sortBy = sortType.sortProperty.replace('-', '')
         const order = sortType.sortProperty.includes('-') ? 'asc' : 'desc'
-        // const search = searchValue ? `&search=${searchValue}` : ''
 
         fetch(`https://63c6ed58d307b7696743f513.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}`)
             .then((res) => {
