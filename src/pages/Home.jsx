@@ -9,8 +9,8 @@ import qs from 'qs'
 import {sortList} from "../Components/Sort";
 import {SearchContext} from "../App";
 import {useDispatch, useSelector} from "react-redux";
-import {setCategoryId, setCurrentPage, setFilters} from "../redux/slices/filterSlice";
-import {fetchPizzas} from "../redux/slices/pizzasSlice";
+import {selectFilter, setCategoryId, setCurrentPage, setFilters} from "../redux/slices/filterSlice";
+import {fetchPizzas, selectPizzaData} from "../redux/slices/pizzasSlice";
 
 const Home = () => {
     const navigate = useNavigate()
@@ -18,11 +18,9 @@ const Home = () => {
     const isSearch = useRef(false)
     const isMounted = useRef(false)
 
-    const {items, status} = useSelector(state => state.pizza)
-    const {categoryId, sort, currentPage} = useSelector(state => state.filter)
+    const {items, status} = useSelector(selectPizzaData)
+    const {categoryId, sort, currentPage, searchValue} = useSelector(selectFilter)
     const sortType = sort.sortProperty
-
-    const {searchValue} = useContext(SearchContext)
 
     const onChangeCategory = useCallback((id) => {
         dispatch(setCategoryId(id))
