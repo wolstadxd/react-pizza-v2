@@ -4,10 +4,9 @@ import Skeleton from "../Components/PizzaBlock/Skeleton";
 import PizzaBlock from "../Components/PizzaBlock";
 import React, {useCallback, useContext, useEffect, useRef} from "react";
 import Pagination from "../Components/Pagination";
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import qs from 'qs'
 import {sortList} from "../Components/Sort";
-import {SearchContext} from "../App";
 import {useDispatch, useSelector} from "react-redux";
 import {selectFilter, setCategoryId, setCurrentPage, setFilters} from "../redux/slices/filterSlice";
 import {fetchPizzas, selectPizzaData} from "../redux/slices/pizzasSlice";
@@ -84,7 +83,8 @@ const Home = () => {
     }, [categoryId, sortType, searchValue, currentPage])
 
 
-    const pizzas = items.filter(obj => obj.title.toLowerCase().includes(searchValue.toLocaleString())).map((obj) => <PizzaBlock key={obj.id} {...obj} />)
+    const pizzas = items.filter(obj => obj.title.toLowerCase().includes(searchValue.toLocaleString())).map((obj) => (
+        <Link key={obj.id} to={`/pizza/${obj.id}`}><PizzaBlock {...obj} /></Link>))
 
     const skeleton = [...new Array(10)].map((_, index) => <Skeleton key={index} />)
 
