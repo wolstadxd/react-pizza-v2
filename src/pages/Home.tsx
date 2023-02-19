@@ -21,12 +21,12 @@ const Home = () => {
     const {categoryId, sort, currentPage, searchValue} = useSelector(selectFilter)
     const sortType = sort.sortProperty
 
-    const onChangeCategory = useCallback((id) => {
+    const onChangeCategory = useCallback((id: number) => {
         dispatch(setCategoryId(id))
     }, [])
 
-    const onChangePage = number => {
-        dispatch(setCurrentPage(number))
+    const onChangePage = (page: number) => {
+        dispatch(setCurrentPage(page))
     }
 
     const getPizzas = async () => {
@@ -35,7 +35,9 @@ const Home = () => {
         const sortBy = sortType.replace('-', '')
         const order = sortType.includes('-') ? 'asc' : 'desc'
 
-        dispatch(fetchPizzas({
+        dispatch(
+            // @ts-ignore
+            fetchPizzas({
             sortBy,
             order,
             category,
@@ -83,7 +85,7 @@ const Home = () => {
     }, [categoryId, sortType, searchValue, currentPage])
 
 
-    const pizzas = items.filter(obj => obj.title.toLowerCase().includes(searchValue.toLocaleString())).map((obj) => (
+    const pizzas = items.filter((obj: any) => obj.title.toLowerCase().includes(searchValue.toLocaleString())).map((obj: any) => (
         <Link key={obj.id} to={`/pizza/${obj.id}`}><PizzaBlock {...obj} /></Link>))
 
     const skeleton = [...new Array(10)].map((_, index) => <Skeleton key={index} />)
@@ -91,13 +93,13 @@ const Home = () => {
     return (
         <div className="container">
             <div className="content__top">
-                <Categories value={categoryId} onChangeCategory={onChangeCategory}/>
+                <Categories value={categoryId} onChangeCategory={onChangeCategory} />
                 <Sort />
             </div>
             <h2 className="content__title">Все пиццы</h2>
             {
                 status === 'error' ? (<div className={'content__error-info'}>
-                    <h2>Произошла ошибка <icon>😕</icon></h2>
+                    <h2>Произошла ошибка <span>😕</span></h2>
                     <p>К сожалению не удалось получить питсы :( Попробуйте повторить попытку позже</p>
                 </div> ) : ( <div className="content__items">
                     {status === 'loading' ? skeleton : pizzas}
