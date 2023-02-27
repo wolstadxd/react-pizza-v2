@@ -2,7 +2,7 @@ import Categories from "../Components/Categories";
 import Sort from "../Components/Sort";
 import Skeleton from "../Components/PizzaBlock/Skeleton";
 import PizzaBlock from "../Components/PizzaBlock";
-import React, {useCallback, useContext, useEffect, useRef} from "react";
+import React, {useCallback, useEffect, useRef} from "react";
 import Pagination from "../Components/Pagination";
 import { Link, useNavigate } from "react-router-dom"
 import qs from 'qs'
@@ -87,7 +87,7 @@ const Home = () => {
 
 
     const pizzas = items.filter((obj: any) => obj.title.toLowerCase().includes(searchValue.toLocaleString())).map((obj: any) => (
-        <PizzaBlock {...obj} />
+        <PizzaBlock key={obj.id} {...obj} />
     ))
 
     const skeleton = [...new Array(10)].map((_, index) => <Skeleton key={index} />)
@@ -96,7 +96,7 @@ const Home = () => {
         <div className="container">
             <div className="content__top">
                 <Categories value={categoryId} onChangeCategory={onChangeCategory} />
-                <Sort />
+                <Sort value={sort}/>
             </div>
             <h2 className="content__title">Все пиццы</h2>
             {

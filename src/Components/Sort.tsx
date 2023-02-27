@@ -1,7 +1,8 @@
-import React from "react";
+import React, {memo} from "react";
 import {useEffect, useRef, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {selectSort, setSort, SortPropertyEnum} from "../redux/slices/filterSlice";
+import {useDispatch} from "react-redux";
+import {setSort, Sort, SortPropertyEnum} from "../redux/slices/filterSlice";
+import useWhyDidYouUpdate from 'ahooks/lib/useWhyDidYouUpdate'
 
 type SortItem = {
     name: string,
@@ -10,6 +11,10 @@ type SortItem = {
 
 type PopupClick = MouseEvent & {
     composedPath(): Node[]
+}
+
+type SortPopup = {
+    value: Sort
 }
 
 export const sortList: SortItem[] = [
@@ -21,10 +26,12 @@ export const sortList: SortItem[] = [
     {name: 'алфавиту(ASC)', sortProperty: SortPropertyEnum.TITLE_ASC}
 ]
 
-function SortPopup () {
+const SortPopup: React.FC<SortPopup> = memo(({value}) => {
     const dispatch = useDispatch()
-    const sort = useSelector(selectSort)
     const sortRef = useRef<HTMLDivElement>(null)
+
+    useWhyDidYouUpdate('Categories', {value})
+
 
     const [open, setOpen] = useState(false)
 
@@ -63,7 +70,7 @@ function SortPopup () {
                     />
                 </svg>
                 <b>Сортировка по:</b>
-                <span onClick={() => setOpen(!open)}>{sort.name}</span>
+                <span onClick={() => setOpen(!open)}>{value.name}</span>
             </div>
             {open && (<div className="sort__popup">
                 <ul>
@@ -71,12 +78,12 @@ function SortPopup () {
                         <li
                             key={index}
                             onClick={() => onClickListItem(obj)}
-                            className={sort.sortProperty === obj.sortProperty ? 'active' : ''}>{obj.name}</li>
+                            className={value.sortProperty === obj.sortProperty ? 'active' : ''}>{obj.name}</li>
                     ))}
                 </ul>
             </div>)}
         </div>
     )
-}
+})
 
 export default SortPopup
